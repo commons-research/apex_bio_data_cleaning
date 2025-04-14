@@ -11,3 +11,4 @@ wheels/
 cache
 .DS_Store
 ~$apex_bio.xlsx
+.ipynb_checkpoints

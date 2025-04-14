@@ -1,2 +1,2 @@
-catalog_number	plate_location	rack_number	apex_cas_number	apex_item_name	apex_molecular_weight	apex_molecular_formula	apex_smiles	apex_valid_smiles	failed_cas_number	failed_item_name	failed_smiles	super_parent_smiles	super_parent_exact_mass	super_parent_molecular_weight	super_parent_molecular_formula
-B1716	A09	2	1264-72-8	Colistin Sulfate	1253.51	H2O4S.xUnspecified		False	True	True	True				
+catalog_number	plate_location	rack_number	apex_cas_number	apex_item_name	apex_molecular_weight	apex_molecular_formula	apex_smiles	apex_valid_smiles	failed_cas_number	failed_item_name	failed_smiles	super_parent_smiles	super_parent_exact_mass	super_parent_molecular_weight	super_parent_molecular_formula	pubchem_cid
+B1716	A09	2	1264-72-8	Colistin Sulfate	1253.51	H2O4S.xUnspecified		False	True	True	True					
