@@ -186,7 +186,7 @@ class Molecule(Hashable):
         else:
             return self.pubchem_compound.inchikey
 
-    def matching_mass(self) -> bool:
+    def matching_mass(self, tolerance=0.2) -> bool:
         """
         Returns True if the mass of the molecule in the Apex Bio file
         is matching the mass of the Pubchem compound.
@@ -199,13 +199,13 @@ class Molecule(Hashable):
                     float(self.pubchem_compound.molecular_weight)
                     - self.apex_molecular_weight
                 )
-                < 0.2
+                < tolerance
             )
         else:
             for compound in self.pubchem_compound:
                 if (
                     abs(float(compound.molecular_weight) - self.apex_molecular_weight)
-                    < 0.2
+                    < tolerance
                 ):
                     return True
         return False
