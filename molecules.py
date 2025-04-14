@@ -9,8 +9,8 @@ from dict_hash import Hashable, sha256
 from molvs import Standardizer
 from rdkit import Chem
 from rdkit.Chem import Mol
-from rdkit.Chem.Descriptors import ExactMolWt, MolWt
-from rdkit.Chem.rdMolDescriptors import CalcMolFormula
+from rdkit.Chem.Descriptors import MolWt
+from rdkit.Chem.rdMolDescriptors import CalcExactMolWt, CalcMolFormula
 
 
 @dataclass
@@ -54,7 +54,9 @@ class Molecule(Hashable):
         if self.rdkit_molecule:
             standardizer = Standardizer()
             self.super_parent_mol = standardizer.super_parent(self.rdkit_molecule)
-            self.super_parent_smiles = Chem.MolToSmiles(self.super_parent_mol)
+            self.super_parent_smiles = Chem.MolToSmiles(
+                self.super_parent_mol, isomericSmiles=False
+            )
             return
 
         return
@@ -214,7 +216,7 @@ class Molecule(Hashable):
         """
 
         super_parent_exact_mass = (
-            ExactMolWt(self.super_parent_mol) if self.super_parent_mol else None
+            CalcExactMolWt(self.super_parent_mol) if self.super_parent_mol else None
         )
         super_parent_molecular_weight = (
             MolWt(self.super_parent_mol) if self.super_parent_mol else None
@@ -240,6 +242,11 @@ class Molecule(Hashable):
             "super_parent_exact_mass": super_parent_exact_mass,
             "super_parent_molecular_weight": super_parent_molecular_weight,
             "super_parent_molecular_formula": super_parent_formula,
+            "pubchem_cid": (
+                self.pubchem_compound.cid
+                if isinstance(self.pubchem_compound, pcp.Compound)
+                else None
+            ),
         }
         return pd.DataFrame(data, index=[0])
 
