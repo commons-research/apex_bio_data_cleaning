@@ -10,3 +10,4 @@ wheels/
 .venv
 cache
 .DS_Store
+~$apex_bio.xlsx
