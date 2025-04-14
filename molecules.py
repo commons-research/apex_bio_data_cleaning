@@ -16,13 +16,13 @@ from rdkit.Chem.rdMolDescriptors import CalcMolFormula
 @dataclass
 class Molecule(Hashable):
     apex_cas_number: str
-    failed_cas_number: bool = field(init=False, default=False)
+    failed_cas_number: bool = field(init=False, default=False, repr=False)
     apex_item_name: str
-    failed_item_name: bool = field(init=False, default=False)
+    failed_item_name: bool = field(init=False, default=False, repr=False)
     apex_molecular_weight: float
     apex_molecular_formula: str
     apex_smiles: Optional[str]
-    failed_smiles: bool = field(init=False, default=False)
+    failed_smiles: bool = field(init=False, default=False, repr=False)
     super_parent_smiles: Optional[str] = field(init=False, default=None)
     rdkit_molecule: Optional[Mol] = field(init=False, default=None)
     super_parent_mol: Optional[Mol] = field(init=False, default=None)
@@ -95,6 +95,7 @@ class Molecule(Hashable):
         """
         Returns the RDKit molecule object.
         """
+
         return self.rdkit_molecule
 
     def get_apex_molecular_formula_clean(self) -> str:
@@ -117,7 +118,10 @@ class Molecule(Hashable):
             return False
         if self.pubchem_compound is None:
             return False
-        return len(self.pubchem_compound) > 1
+        if isinstance(self.pubchem_compound, list):
+            return len(self.pubchem_compound) > 1
+
+        return False
 
     def get_super_parent_smiles(self) -> Optional[str]:
         """
@@ -228,6 +232,7 @@ class Molecule(Hashable):
             "apex_molecular_weight": self.apex_molecular_weight,
             "apex_molecular_formula": self.apex_molecular_formula,
             "apex_smiles": self.apex_smiles,
+            "apex_valid_smiles": self.apex_valid_smiles,
             "failed_cas_number": self.failed_cas_number,
             "failed_item_name": self.failed_item_name,
             "failed_smiles": self.failed_smiles,
