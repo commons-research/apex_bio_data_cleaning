@@ -27,7 +27,6 @@ for index, row in tqdm(df.iterrows(), total=len(df)):
 # convert my list in dataframe 
 list_mol = [i.to_dataframe() for i in molecules]
 dataframe_mol = pd.concat(list_mol, ignore_index=True)
-dataframe_mol
 
 # define a function to convert my data in a df named "File Name"
 
@@ -45,17 +44,14 @@ def generate_file_name (df, initials, ionisation):
             f"{date}_{initials}_{pubchemcid}_neg"
         ]
         return pd.DataFrame({"File Name": negative_positive})
-    
 
-
-# Using my function 
+# Using my function  
 complete_list = []
 for index, row in dataframe_mol.iterrows():
-    file_name = generate_file_name(df=row, initials="JDAN", ionisation="pos")
+    file_name = generate_file_name(df=row, initials="JDAN", ionisation="both")
     complete_list.append(file_name)
 
 final_df = pd.concat(complete_list).reset_index(drop=True)
-final_df
 
 
 
