@@ -6,10 +6,10 @@ from typing import List
 from datetime import datetime
 from datetime import date 
 
-# %%
+# read excel
 df = pd.read_excel("./apex_bio.xlsx", sheet_name="Chemical Data")
 
-# %%
+# list of molecules with data 
 molecules: List[Molecule] = []
 for index, row in tqdm(df.iterrows(), total=len(df)):
     mol = Molecule(
