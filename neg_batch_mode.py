@@ -7,8 +7,7 @@ def generate_negative_batch_mode(
     output_sirius: str,
     output_gnps: str,
 ) -> str:
-    return f"""
-<?xml version="1.0" encoding="UTF-8"?><batch mzmine_version="4.6.1">
+    return f"""<?xml version="1.0" encoding="UTF-8"?><batch mzmine_version="4.6.1">
     <batchstep method="io.github.mzmine.modules.io.import_rawdata_all.AllSpectralDataImportModule" parameter_version="1">
         <parameter name="File names">
             <file>{file_name}</file>
