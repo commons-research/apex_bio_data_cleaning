@@ -139,9 +139,33 @@ class Molecule(Hashable):
         # we need to iterate over the CAS number, the item name and the SMILES
         # to find the compound
         # first try the CAS number
-        self.pubchem_compound = self._get_compound_from_pubchem(
+        pubchem_compound_from_cas = self._get_compound_from_pubchem(
             self.apex_cas_number, "name"
         )
+
+        try:
+            pubchem_coumpound_from_smiles = self._get_compound_from_pubchem(
+                self.apex_smiles, "smiles"
+            )
+        except:
+            pubchem_coumpound_from_smiles = []
+            self.failed_smiles = True
+
+        if (
+            pubchem_coumpound_from_smiles
+            and pubchem_compound_from_cas
+            and len(pubchem_coumpound_from_smiles) < len(pubchem_compound_from_cas)
+        ):
+            # handle corner case where it found a compound but of None type
+            if not pubchem_coumpound_from_smiles[0].inchikey:
+                self.pubchem_compound = pubchem_compound_from_cas
+            else:
+                self.pubchem_compound = pubchem_coumpound_from_smiles
+        elif pubchem_coumpound_from_smiles and not pubchem_compound_from_cas:
+            self.pubchem_compound = pubchem_coumpound_from_smiles
+        else:
+            self.pubchem_compound = pubchem_compound_from_cas
+
         if not self.pubchem_compound:
             self.failed_cas_number = True
             # if that fails, try the item name
@@ -151,15 +175,6 @@ class Molecule(Hashable):
 
         if not self.pubchem_compound:
             self.failed_item_name = True
-            # if that fails, try the SMILES
-            if self.apex_smiles:
-                self.pubchem_compound = self._get_compound_from_pubchem(
-                    self.apex_smiles, "smiles"
-                )
-        if not self.pubchem_compound:
-            self.failed_smiles = True
-            print(f"Error fetching compound by SMILES.")
-            self.pubchem_compound = None
             return
 
         # now we only keep the molecules that have a different inchikey 2D
@@ -255,6 +270,9 @@ class Molecule(Hashable):
             {
                 "apex_cas_number": self.apex_cas_number,
                 "apex_item_name": self.apex_item_name,
+                "apex_smiles": self.apex_smiles,
+                "apex_molecular_weight": self.apex_molecular_weight,
+                "apex_molecular_formula": self.apex_molecular_formula,
             },
             use_approximation=use_approximation,
         )
