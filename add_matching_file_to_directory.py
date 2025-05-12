@@ -16,7 +16,7 @@ for dir in directories:
 
     if files:
         m = max(files, key=len) 
-        file_path = os.path.join(path, "data_files", m))
+        file_path = os.path.join(path, "data_files", m)
         dest_dir = os.path.join(path, "example_folder", dir)
         shutil.move(file_path, dest_dir)
 
