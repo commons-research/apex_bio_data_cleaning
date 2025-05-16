@@ -15,3 +15,6 @@ apex_bio.xlsx
 apex_bio_original.xlsx
 .ipynb_checkpoints
 excel_data/
+data/
+check_concentration/
+.env

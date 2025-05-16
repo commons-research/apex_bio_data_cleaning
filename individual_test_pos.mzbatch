@@ -1,18 +1,7 @@
-import os
-
-
-def generate_positive_batch_mode(
-    file_name: str,
-    feature_list: str,
-    output_sirius: str,
-    output_gnps: str,
-    output_correlation_annotations: str,
-) -> str:
-
-    return f"""<?xml version="1.0" encoding="UTF-8"?><batch mzmine_version="4.6.1">
+<?xml version="1.0" encoding="UTF-8"?><batch mzmine_version="4.6.1">
     <batchstep method="io.github.mzmine.modules.io.import_rawdata_all.AllSpectralDataImportModule" parameter_version="1">
         <parameter name="File names">
-            <file>{file_name}</file>
+            <file>/Users/visanim/work/random-markov-field/fake_extract/data/2182_14_1_pos/20250505_JDAN_2182_14_1_pos.mzML</file>
         </parameter>
         <parameter name="Try vendor centroiding">true</parameter>
         <parameter name="Advanced import" selected="false">
@@ -194,7 +183,10 @@ def generate_positive_batch_mode(
         </parameter>
         <parameter name="Name suffix">detectedPeak</parameter>
         <parameter name="Database file">
-            <current_file>{feature_list}</current_file>
+            <current_file>/Users/visanim/work/random-markov-field/fake_extract/data/2182_14_1_pos/feature_list.csv</current_file>
+            <last_file>/Users/visanim/work/random-markov-field/fake_extract/data/2182_14_1_pos/feature_list.csv</last_file>
+            <last_file>/Users/visanim/work/random-markov-field/fake_extract/first_processed_batch/apex_bio_cleaned_3_01.csv</last_file>
+            <last_file>/Users/visanim/Desktop/mzmine_exploration/targets.csv</last_file>
         </parameter>
         <parameter name="Field separator">,</parameter>
         <parameter name="Columns">
@@ -482,7 +474,8 @@ def generate_positive_batch_mode(
     <batchstep method="io.github.mzmine.modules.io.export_features_sirius.SiriusExportModule" parameter_version="2">
         <parameter name="Feature lists" type="BATCH_LAST_FEATURELISTS"/>
         <parameter name="Filename">
-            <current_file>{output_sirius}_sirius.mgf</current_file>
+            <current_file>/Users/visanim/work/random-markov-field/fake_extract/data/2182_14_1_pos/{}_sirius.mgf</current_file>
+            <last_file>/Users/visanim/work/random-markov-field/fake_extract/data/2182_14_1_pos/{}_sirius.mgf</last_file>
         </parameter>
         <parameter name="Intensity normalization" scientific="true">no_normalization</parameter>
         <parameter name="Merge &amp; select fragment scans" selected_item="simple_merged">
@@ -531,7 +524,8 @@ def generate_positive_batch_mode(
     <batchstep method="io.github.mzmine.modules.io.export_features_gnps.fbmn.GnpsFbmnExportAndSubmitModule" parameter_version="3">
         <parameter name="Feature lists" type="BATCH_LAST_FEATURELISTS"/>
         <parameter name="Filename">
-            <current_file>{output_gnps}_gnps.mgf</current_file>
+            <current_file>/Users/visanim/work/random-markov-field/fake_extract/data/2182_14_1_pos/{}_gnps.mgf</current_file>
+            <last_file>/Users/visanim/work/random-markov-field/fake_extract/data/2182_14_1_pos/{}_gnps.mgf</last_file>
         </parameter>
         <parameter name="Filter rows">ALL</parameter>
         <parameter name="Merge &amp; select fragment scans" selected_item="input_scans">
@@ -575,7 +569,8 @@ def generate_positive_batch_mode(
     <batchstep method="io.github.mzmine.modules.dataprocessing.group_metacorrelate.export.ExportCorrAnnotationModule" parameter_version="1">
         <parameter name="Feature lists" type="BATCH_LAST_FEATURELISTS"/>
         <parameter name="Filename">
-            <current_file>{output_correlation_annotations}.csv</current_file>
+            <current_file>/Users/visanim/work/random-markov-field/fake_extract/data/2182_14_1_pos/2182_14_1_pos.csv</current_file>
+            <last_file>/Users/visanim/work/random-markov-field/fake_extract/data/2182_14_1_pos/2182_14_1_pos.csv</last_file>
         </parameter>
         <parameter name="Export row relationships">
             <item>GNPS mod-cosine</item>
@@ -591,4 +586,3 @@ def generate_positive_batch_mode(
         <parameter name="Filter rows">ALL</parameter>
     </batchstep>
 </batch>
-"""
