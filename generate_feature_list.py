@@ -5,9 +5,7 @@ import pandas as pd
 from tqdm import tqdm
 
 
-def generate_and_save(
-    df: pd.DataFrame, output_dir="data", initials="JDAN", ionisation="both"
-):
+def generate_and_save(df: pd.DataFrame, output_dir="data", ionisation="both"):
 
     unique_cas_numbers = df["apex_cas_number"].unique()
 
@@ -51,7 +49,7 @@ def generate_and_save(
 def main():
     # Exemple d'utilisation
     df = pd.read_csv("apex_bio_cleaned.tsv", sep="\t")
-    generate_and_save(df, output_dir="data", initials="JDAN", ionisation="both")
+    generate_and_save(df, output_dir="data", ionisation="both")
 
 
 if __name__ == "__main__":
