@@ -221,7 +221,7 @@ def generate_negative_batch_mode(
             <parameter name="Maximum charge">2</parameter>
             <parameter name="Maximum molecules/cluster">2</parameter>
             <parameter name="Adducts">
-                <adduct_type selected="true">
+                <adduct_type selected="false">
                     <subpart charge="-1" mass_difference="0.0" mol_formula="" name="e" type="ADDUCT"/>
                 </adduct_type>
                 <adduct_type selected="false">
@@ -322,7 +322,7 @@ def generate_negative_batch_mode(
             <parameter name="Maximum charge">2</parameter>
             <parameter name="Maximum molecules/cluster">2</parameter>
             <parameter name="Adducts">
-                <adduct_type selected="true">
+                <adduct_type selected="false">
                     <subpart charge="-1" mass_difference="0.0" mol_formula="" name="e" type="ADDUCT"/>
                 </adduct_type>
                 <adduct_type selected="false">
