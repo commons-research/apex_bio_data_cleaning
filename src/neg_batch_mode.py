@@ -1,18 +1,17 @@
 import os
 
 
-def generate_positive_batch_mode(
-    file_name: str,
+def generate_negative_batch_mode(
+    mzml_file: str,
     feature_list: str,
     output_sirius: str,
     output_gnps: str,
     output_correlation_annotations: str,
 ) -> str:
-
     return f"""<?xml version="1.0" encoding="UTF-8"?><batch mzmine_version="4.6.1">
     <batchstep method="io.github.mzmine.modules.io.import_rawdata_all.AllSpectralDataImportModule" parameter_version="1">
         <parameter name="File names">
-            <file>{file_name}</file>
+            <file>{mzml_file}</file>
         </parameter>
         <parameter name="Try vendor centroiding">true</parameter>
         <parameter name="Advanced import" selected="false">
@@ -99,7 +98,7 @@ def generate_positive_batch_mode(
             <parameter name="Mobility"/>
             <parameter name="MS level filter" selected="MS2, level = 2">1</parameter>
             <parameter name="Scan definition"/>
-            <parameter name="Polarity">+</parameter>
+            <parameter name="Polarity">-</parameter>
             <parameter name="Spectrum type">ANY</parameter>
         </parameter>
         <parameter name="Scan types (IMS)">All scan types</parameter>
@@ -144,7 +143,7 @@ def generate_positive_batch_mode(
             <parameter name="Mobility"/>
             <parameter name="MS level filter" selected="MS1, level = 1">1</parameter>
             <parameter name="Scan definition"/>
-            <parameter name="Polarity">+</parameter>
+            <parameter name="Polarity">-</parameter>
             <parameter name="Spectrum type">ANY</parameter>
         </parameter>
         <parameter name="Scan types (IMS)">All scan types</parameter>
@@ -189,7 +188,7 @@ def generate_positive_batch_mode(
             <parameter name="Mobility"/>
             <parameter name="MS level filter" selected="MS1, level = 1">1</parameter>
             <parameter name="Scan definition"/>
-            <parameter name="Polarity">+</parameter>
+            <parameter name="Polarity">-</parameter>
             <parameter name="Spectrum type">ANY</parameter>
         </parameter>
         <parameter name="Name suffix">detectedPeak</parameter>
@@ -202,7 +201,7 @@ def generate_positive_batch_mode(
             <importtype column="mz" datatype="io.github.mzmine.datamodel.features.types.numbers.PrecursorMZType" selected="false"/>
             <importtype column="rt" datatype="io.github.mzmine.datamodel.features.types.numbers.RTType" selected="true"/>
             <importtype column="formula" datatype="io.github.mzmine.datamodel.features.types.annotations.formula.FormulaType" selected="true"/>
-            <importtype column="smiles" datatype="io.github.mzmine.datamodel.features.types.annotations.SmilesStructureType" selected="false"/>
+            <importtype column="smiles" datatype="io.github.mzmine.datamodel.features.types.annotations.SmilesStructureType" selected="true"/>
             <importtype column="adduct" datatype="io.github.mzmine.datamodel.features.types.annotations.iin.IonAdductType" selected="false"/>
             <importtype column="inchi" datatype="io.github.mzmine.datamodel.features.types.annotations.InChIStructureType" selected="false"/>
             <importtype column="inchi key" datatype="io.github.mzmine.datamodel.features.types.annotations.InChIKeyStructureType" selected="false"/>
@@ -223,93 +222,36 @@ def generate_positive_batch_mode(
             <parameter name="Maximum molecules/cluster">2</parameter>
             <parameter name="Adducts">
                 <adduct_type selected="true">
-                    <subpart charge="1" mass_difference="-5.4858E-4" mol_formula="" name="e" type="ADDUCT"/>
-                    <subpart charge="1" mass_difference="-5.4858E-4" mol_formula="" name="e" type="ADDUCT"/>
+                    <subpart charge="-1" mass_difference="0.0" mol_formula="" name="e" type="ADDUCT"/>
                 </adduct_type>
-                <adduct_type selected="true">
-                    <subpart charge="-1" mass_difference="-1.007276" mol_formula="H" name="H" type="ADDUCT"/>
-                    <subpart charge="1" mass_difference="22.989218" mol_formula="Na" name="Na" type="ADDUCT"/>
+                <adduct_type selected="false">
                     <subpart charge="1" mass_difference="22.989218" mol_formula="Na" name="Na" type="ADDUCT"/>
                 </adduct_type>
                 <adduct_type selected="true">
-                    <subpart charge="0" mass_difference="-18.010565" mol_formula="H2O" name="H2O" type="NEUTRAL_LOSS"/>
-                    <subpart charge="1" mass_difference="-5.4858E-4" mol_formula="" name="e" type="ADDUCT"/>
+                    <subpart charge="-1" mass_difference="5.4858E-4" mol_formula="" name="e" type="ADDUCT"/>
+                </adduct_type>
+                <adduct_type selected="true">
+                    <subpart charge="-1" mass_difference="44.99820285" mol_formula="HCO2" name="FA" type="ADDUCT"/>
                 </adduct_type>
                 <adduct_type selected="false">
                     <subpart charge="0" mass_difference="-18.010565" mol_formula="H2O" name="H2O" type="NEUTRAL_LOSS"/>
                 </adduct_type>
                 <adduct_type selected="true">
-                    <subpart charge="2" mass_difference="55.93384" mol_formula="Fe" name="Fe" type="ADDUCT"/>
                     <subpart charge="-1" mass_difference="-1.007276" mol_formula="H" name="H" type="ADDUCT"/>
-                </adduct_type>
-                <adduct_type selected="true">
-                    <subpart charge="1" mass_difference="1.007276" mol_formula="H" name="H" type="ADDUCT"/>
-                    <subpart charge="1" mass_difference="18.033823" mol_formula="NH4" name="NH4" type="ADDUCT"/>
-                </adduct_type>
-                <adduct_type selected="true">
-                    <subpart charge="2" mass_difference="39.96149382" mol_formula="Ca" name="Ca" type="ADDUCT"/>
                     <subpart charge="-1" mass_difference="-1.007276" mol_formula="H" name="H" type="ADDUCT"/>
-                </adduct_type>
-                <adduct_type selected="true">
-                    <subpart charge="1" mass_difference="1.007276" mol_formula="H" name="H" type="ADDUCT"/>
-                    <subpart charge="1" mass_difference="1.007276" mol_formula="H" name="H" type="ADDUCT"/>
-                </adduct_type>
-                <adduct_type selected="true">
-                    <subpart charge="1" mass_difference="38.963158" mol_formula="K" name="K" type="ADDUCT"/>
-                </adduct_type>
-                <adduct_type selected="true">
-                    <subpart charge="2" mass_difference="47.96953482" mol_formula="Mg" name="Mg" type="ADDUCT"/>
-                </adduct_type>
-                <adduct_type selected="true">
-                    <subpart charge="1" mass_difference="1.007276" mol_formula="H" name="H" type="ADDUCT"/>
-                    <subpart charge="1" mass_difference="38.963158" mol_formula="K" name="K" type="ADDUCT"/>
-                </adduct_type>
-                <adduct_type selected="true">
                     <subpart charge="1" mass_difference="22.989218" mol_formula="Na" name="Na" type="ADDUCT"/>
                 </adduct_type>
                 <adduct_type selected="true">
-                    <subpart charge="1" mass_difference="-5.4858E-4" mol_formula="" name="e" type="ADDUCT"/>
-                </adduct_type>
-                <adduct_type selected="true">
-                    <subpart charge="1" mass_difference="1.007276" mol_formula="H" name="H" type="ADDUCT"/>
-                    <subpart charge="1" mass_difference="22.989218" mol_formula="Na" name="Na" type="ADDUCT"/>
-                </adduct_type>
-                <adduct_type selected="true">
-                    <subpart charge="2" mass_difference="55.93384" mol_formula="Fe" name="Fe" type="ADDUCT"/>
-                </adduct_type>
-                <adduct_type selected="true">
-                    <subpart charge="1" mass_difference="1.007276" mol_formula="H" name="H" type="ADDUCT"/>
-                    <subpart charge="0" mass_difference="-18.010565" mol_formula="H2O" name="H2O" type="NEUTRAL_LOSS"/>
-                    <subpart charge="0" mass_difference="-18.010565" mol_formula="H2O" name="H2O" type="NEUTRAL_LOSS"/>
-                </adduct_type>
-                <adduct_type selected="true">
-                    <subpart charge="2" mass_difference="39.96149382" mol_formula="Ca" name="Ca" type="ADDUCT"/>
-                </adduct_type>
-                <adduct_type selected="true">
-                    <subpart charge="1" mass_difference="1.007276" mol_formula="H" name="H" type="ADDUCT"/>
-                    <subpart charge="0" mass_difference="-18.010565" mol_formula="H2O" name="H2O" type="NEUTRAL_LOSS"/>
-                </adduct_type>
-                <adduct_type selected="true">
-                    <subpart charge="1" mass_difference="1.007276" mol_formula="H" name="H" type="ADDUCT"/>
-                    <subpart charge="0" mass_difference="-18.010565" mol_formula="H2O" name="H2O" type="NEUTRAL_LOSS"/>
-                    <subpart charge="0" mass_difference="-18.010565" mol_formula="H2O" name="H2O" type="NEUTRAL_LOSS"/>
-                    <subpart charge="0" mass_difference="-18.010565" mol_formula="H2O" name="H2O" type="NEUTRAL_LOSS"/>
-                </adduct_type>
-                <adduct_type selected="true">
-                    <subpart charge="-1" mass_difference="-1.007276" mol_formula="H" name="H" type="ADDUCT"/>
-                    <subpart charge="2" mass_difference="47.96953482" mol_formula="Mg" name="Mg" type="ADDUCT"/>
-                </adduct_type>
-                <adduct_type selected="true">
-                    <subpart charge="1" mass_difference="18.033823" mol_formula="NH4" name="NH4" type="ADDUCT"/>
-                </adduct_type>
-                <adduct_type selected="true">
-                    <subpart charge="1" mass_difference="1.007276" mol_formula="H" name="H" type="ADDUCT"/>
-                </adduct_type>
-                <adduct_type selected="false">
                     <subpart charge="-1" mass_difference="-1.007276" mol_formula="H" name="H" type="ADDUCT"/>
                 </adduct_type>
                 <adduct_type selected="true">
-                    <subpart charge="1" mass_difference="0.0" mol_formula="" name="e" type="ADDUCT"/>
+                    <subpart charge="-1" mass_difference="78.918886" mol_formula="Br" name="Br" type="ADDUCT"/>
+                </adduct_type>
+                <adduct_type selected="true">
+                    <subpart charge="-1" mass_difference="59.013304" mol_formula="C2H3O2" name="Acetate" type="ADDUCT"/>
+                </adduct_type>
+                <adduct_type selected="true">
+                    <subpart charge="-1" mass_difference="34.969401" mol_formula="Cl" name="Cl" type="ADDUCT"/>
                 </adduct_type>
             </parameter>
         </parameter>
@@ -381,93 +323,36 @@ def generate_positive_batch_mode(
             <parameter name="Maximum molecules/cluster">2</parameter>
             <parameter name="Adducts">
                 <adduct_type selected="true">
-                    <subpart charge="1" mass_difference="-5.4858E-4" mol_formula="" name="e" type="ADDUCT"/>
-                    <subpart charge="1" mass_difference="-5.4858E-4" mol_formula="" name="e" type="ADDUCT"/>
+                    <subpart charge="-1" mass_difference="0.0" mol_formula="" name="e" type="ADDUCT"/>
                 </adduct_type>
-                <adduct_type selected="true">
-                    <subpart charge="-1" mass_difference="-1.007276" mol_formula="H" name="H" type="ADDUCT"/>
-                    <subpart charge="1" mass_difference="22.989218" mol_formula="Na" name="Na" type="ADDUCT"/>
+                <adduct_type selected="false">
                     <subpart charge="1" mass_difference="22.989218" mol_formula="Na" name="Na" type="ADDUCT"/>
                 </adduct_type>
                 <adduct_type selected="true">
-                    <subpart charge="0" mass_difference="-18.010565" mol_formula="H2O" name="H2O" type="NEUTRAL_LOSS"/>
-                    <subpart charge="1" mass_difference="-5.4858E-4" mol_formula="" name="e" type="ADDUCT"/>
+                    <subpart charge="-1" mass_difference="5.4858E-4" mol_formula="" name="e" type="ADDUCT"/>
+                </adduct_type>
+                <adduct_type selected="true">
+                    <subpart charge="-1" mass_difference="44.99820285" mol_formula="HCO2" name="FA" type="ADDUCT"/>
                 </adduct_type>
                 <adduct_type selected="false">
                     <subpart charge="0" mass_difference="-18.010565" mol_formula="H2O" name="H2O" type="NEUTRAL_LOSS"/>
                 </adduct_type>
                 <adduct_type selected="true">
-                    <subpart charge="2" mass_difference="55.93384" mol_formula="Fe" name="Fe" type="ADDUCT"/>
                     <subpart charge="-1" mass_difference="-1.007276" mol_formula="H" name="H" type="ADDUCT"/>
-                </adduct_type>
-                <adduct_type selected="true">
-                    <subpart charge="1" mass_difference="1.007276" mol_formula="H" name="H" type="ADDUCT"/>
-                    <subpart charge="1" mass_difference="18.033823" mol_formula="NH4" name="NH4" type="ADDUCT"/>
-                </adduct_type>
-                <adduct_type selected="true">
-                    <subpart charge="2" mass_difference="39.96149382" mol_formula="Ca" name="Ca" type="ADDUCT"/>
                     <subpart charge="-1" mass_difference="-1.007276" mol_formula="H" name="H" type="ADDUCT"/>
-                </adduct_type>
-                <adduct_type selected="true">
-                    <subpart charge="1" mass_difference="1.007276" mol_formula="H" name="H" type="ADDUCT"/>
-                    <subpart charge="1" mass_difference="1.007276" mol_formula="H" name="H" type="ADDUCT"/>
-                </adduct_type>
-                <adduct_type selected="true">
-                    <subpart charge="1" mass_difference="38.963158" mol_formula="K" name="K" type="ADDUCT"/>
-                </adduct_type>
-                <adduct_type selected="true">
-                    <subpart charge="2" mass_difference="47.96953482" mol_formula="Mg" name="Mg" type="ADDUCT"/>
-                </adduct_type>
-                <adduct_type selected="true">
-                    <subpart charge="1" mass_difference="1.007276" mol_formula="H" name="H" type="ADDUCT"/>
-                    <subpart charge="1" mass_difference="38.963158" mol_formula="K" name="K" type="ADDUCT"/>
-                </adduct_type>
-                <adduct_type selected="true">
                     <subpart charge="1" mass_difference="22.989218" mol_formula="Na" name="Na" type="ADDUCT"/>
                 </adduct_type>
                 <adduct_type selected="true">
-                    <subpart charge="1" mass_difference="-5.4858E-4" mol_formula="" name="e" type="ADDUCT"/>
-                </adduct_type>
-                <adduct_type selected="true">
-                    <subpart charge="1" mass_difference="1.007276" mol_formula="H" name="H" type="ADDUCT"/>
-                    <subpart charge="1" mass_difference="22.989218" mol_formula="Na" name="Na" type="ADDUCT"/>
-                </adduct_type>
-                <adduct_type selected="true">
-                    <subpart charge="2" mass_difference="55.93384" mol_formula="Fe" name="Fe" type="ADDUCT"/>
-                </adduct_type>
-                <adduct_type selected="true">
-                    <subpart charge="1" mass_difference="1.007276" mol_formula="H" name="H" type="ADDUCT"/>
-                    <subpart charge="0" mass_difference="-18.010565" mol_formula="H2O" name="H2O" type="NEUTRAL_LOSS"/>
-                    <subpart charge="0" mass_difference="-18.010565" mol_formula="H2O" name="H2O" type="NEUTRAL_LOSS"/>
-                </adduct_type>
-                <adduct_type selected="true">
-                    <subpart charge="2" mass_difference="39.96149382" mol_formula="Ca" name="Ca" type="ADDUCT"/>
-                </adduct_type>
-                <adduct_type selected="true">
-                    <subpart charge="1" mass_difference="1.007276" mol_formula="H" name="H" type="ADDUCT"/>
-                    <subpart charge="0" mass_difference="-18.010565" mol_formula="H2O" name="H2O" type="NEUTRAL_LOSS"/>
-                </adduct_type>
-                <adduct_type selected="true">
-                    <subpart charge="1" mass_difference="1.007276" mol_formula="H" name="H" type="ADDUCT"/>
-                    <subpart charge="0" mass_difference="-18.010565" mol_formula="H2O" name="H2O" type="NEUTRAL_LOSS"/>
-                    <subpart charge="0" mass_difference="-18.010565" mol_formula="H2O" name="H2O" type="NEUTRAL_LOSS"/>
-                    <subpart charge="0" mass_difference="-18.010565" mol_formula="H2O" name="H2O" type="NEUTRAL_LOSS"/>
-                </adduct_type>
-                <adduct_type selected="true">
-                    <subpart charge="-1" mass_difference="-1.007276" mol_formula="H" name="H" type="ADDUCT"/>
-                    <subpart charge="2" mass_difference="47.96953482" mol_formula="Mg" name="Mg" type="ADDUCT"/>
-                </adduct_type>
-                <adduct_type selected="true">
-                    <subpart charge="1" mass_difference="18.033823" mol_formula="NH4" name="NH4" type="ADDUCT"/>
-                </adduct_type>
-                <adduct_type selected="true">
-                    <subpart charge="1" mass_difference="1.007276" mol_formula="H" name="H" type="ADDUCT"/>
-                </adduct_type>
-                <adduct_type selected="false">
                     <subpart charge="-1" mass_difference="-1.007276" mol_formula="H" name="H" type="ADDUCT"/>
                 </adduct_type>
                 <adduct_type selected="true">
-                    <subpart charge="1" mass_difference="0.0" mol_formula="" name="e" type="ADDUCT"/>
+                    <subpart charge="-1" mass_difference="78.918886" mol_formula="Br" name="Br" type="ADDUCT"/>
+                </adduct_type>
+                <adduct_type selected="true">
+                    <subpart charge="-1" mass_difference="59.013304" mol_formula="C2H3O2" name="Acetate" type="ADDUCT"/>
+                </adduct_type>
+                <adduct_type selected="true">
+                    <subpart charge="-1" mass_difference="34.969401" mol_formula="Cl" name="Cl" type="ADDUCT"/>
                 </adduct_type>
             </parameter>
         </parameter>
@@ -482,7 +367,7 @@ def generate_positive_batch_mode(
     <batchstep method="io.github.mzmine.modules.io.export_features_sirius.SiriusExportModule" parameter_version="2">
         <parameter name="Feature lists" type="BATCH_LAST_FEATURELISTS"/>
         <parameter name="Filename">
-            <current_file>{output_sirius}_sirius.mgf</current_file>
+            <current_file>{output_sirius}</current_file>
         </parameter>
         <parameter name="Intensity normalization" scientific="true">no_normalization</parameter>
         <parameter name="Merge &amp; select fragment scans" selected_item="simple_merged">
@@ -509,8 +394,8 @@ def generate_positive_batch_mode(
             </module>
             <module name="advanced">
                 <parameter name="Merging options">
-                    <selected>Across samples</selected>
                     <selected>Across energies</selected>
+                    <selected>Across samples</selected>
                 </parameter>
                 <parameter name="m/z tolerance">
                     <absolutetolerance>0.008</absolutetolerance>
@@ -531,7 +416,7 @@ def generate_positive_batch_mode(
     <batchstep method="io.github.mzmine.modules.io.export_features_gnps.fbmn.GnpsFbmnExportAndSubmitModule" parameter_version="3">
         <parameter name="Feature lists" type="BATCH_LAST_FEATURELISTS"/>
         <parameter name="Filename">
-            <current_file>{output_gnps}_gnps.mgf</current_file>
+            <current_file>{output_gnps}</current_file>
         </parameter>
         <parameter name="Filter rows">ALL</parameter>
         <parameter name="Merge &amp; select fragment scans" selected_item="input_scans">
@@ -575,7 +460,7 @@ def generate_positive_batch_mode(
     <batchstep method="io.github.mzmine.modules.dataprocessing.group_metacorrelate.export.ExportCorrAnnotationModule" parameter_version="1">
         <parameter name="Feature lists" type="BATCH_LAST_FEATURELISTS"/>
         <parameter name="Filename">
-            <current_file>{output_correlation_annotations}.csv</current_file>
+            <current_file>{output_correlation_annotations}</current_file>
         </parameter>
         <parameter name="Export row relationships">
             <item>GNPS mod-cosine</item>
@@ -591,4 +476,5 @@ def generate_positive_batch_mode(
         <parameter name="Filter rows">ALL</parameter>
     </batchstep>
 </batch>
+
 """

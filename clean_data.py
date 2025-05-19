@@ -6,7 +6,7 @@ from tqdm import tqdm
 
 from molecules import Molecule
 
-DOUBLE_MOLECULES = ["B1358", "B5054"]
+DOUBLE_MOLECULES: List[str] = ["B1358", "B5054"]
 
 
 @Cache()
