@@ -457,6 +457,19 @@ def generate_negative_batch_mode(
         </parameter>
         <parameter name="Open folder">false</parameter>
     </batchstep>
+    <batchstep method="io.github.mzmine.modules.dataprocessing.filter_duplicatefilter.DuplicateFilterModule" parameter_version="1">
+        <parameter name="Feature lists" type="BATCH_LAST_FEATURELISTS"/>
+        <parameter name="Name suffix">filtered</parameter>
+        <parameter name="Filter mode">SINGLE FEATURE</parameter>
+        <parameter name="m/z tolerance">
+            <absolutetolerance>0.001</absolutetolerance>
+            <ppmtolerance>5.0</ppmtolerance>
+        </parameter>
+        <parameter name="RT tolerance" unit="SECONDS">8.0</parameter>
+        <parameter name="Mobility tolerance" selected="true">0.008</parameter>
+        <parameter name="Require same identification">false</parameter>
+        <parameter name="Original feature list">KEEP</parameter>
+    </batchstep>
     <batchstep method="io.github.mzmine.modules.dataprocessing.group_metacorrelate.export.ExportCorrAnnotationModule" parameter_version="1">
         <parameter name="Feature lists" type="BATCH_LAST_FEATURELISTS"/>
         <parameter name="Filename">
