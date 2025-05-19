@@ -18,11 +18,11 @@ def write_mzbatch_file(
 ) -> None:
     if ionisation == "pos":
         batch_file = generate_positive_batch_mode(
-            os.path.join(parent_dir, mzml_input_file),
-            os.path.join(parent_dir, "feature_list.csv"),
-            os.path.join(parent_dir, f"{cas_number_ion_str}_sirius.mgf"),
-            os.path.join(parent_dir, f"{cas_number_ion_str}_gnps.mgf"),
-            os.path.join(parent_dir, f"{cas_number_ion_str}.csv"),
+            os.path.join(os.getcwd(), parent_dir, mzml_input_file),
+            os.path.join(os.getcwd(), parent_dir, "feature_list.csv"),
+            os.path.join(os.getcwd(), parent_dir, f"{cas_number_ion_str}_sirius.mgf"),
+            os.path.join(os.getcwd(), parent_dir, f"{cas_number_ion_str}_gnps.mgf"),
+            os.path.join(os.getcwd(), parent_dir, f"{cas_number_ion_str}.csv"),
         )
     elif ionisation == "neg":
         batch_file = generate_negative_batch_mode(

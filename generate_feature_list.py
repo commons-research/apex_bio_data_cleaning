@@ -96,7 +96,7 @@ def copy_mzml_into_dir(apex_number_and_ion: str, output_dir: str) -> str:
         )
 
     file_to_copy = os.path.join(path_to_copy, matching_files[0])
-    output_path = os.path.join(output_dir, matching_files[0])
+    output_path = os.path.join(os.getcwd(), output_dir, matching_files[0])
     shutil.copy(file_to_copy, output_path)
     return output_path
 
