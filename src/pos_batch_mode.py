@@ -213,8 +213,8 @@ def generate_positive_batch_mode(
         </parameter>
         <parameter name="Intensity tolerance">1.0</parameter>
         <parameter name="m/z tolerance (scan-to-scan)">
-            <absolutetolerance>0.01</absolutetolerance>
-            <ppmtolerance>10.0</ppmtolerance>
+            <absolutetolerance>0.001</absolutetolerance>
+            <ppmtolerance>1.0</ppmtolerance>
         </parameter>
         <parameter name="Retention time tolerance" selected="true" unit="MINUTES">20.0</parameter>
         <parameter name="Mobility time tolerance" selected="false"/>
@@ -318,7 +318,7 @@ def generate_positive_batch_mode(
         <parameter name="Feature lists" type="BATCH_LAST_FEATURELISTS"/>
         <parameter name="MS1 to MS2 precursor tolerance (m/z)">
             <absolutetolerance>0.01</absolutetolerance>
-            <ppmtolerance>10.0</ppmtolerance>
+            <ppmtolerance>1.0</ppmtolerance>
         </parameter>
         <parameter name="Retention time filter" selected="Use feature edges" unit="MINUTES">0.2</parameter>
         <parameter name="Minimum relative feature height" selected="true">0.25</parameter>
@@ -347,7 +347,7 @@ def generate_positive_batch_mode(
     </batchstep>
     <batchstep method="io.github.mzmine.modules.dataprocessing.group_metacorrelate.corrgrouping.CorrelateGroupingModule" parameter_version="3">
         <parameter name="Feature lists" type="BATCH_LAST_FEATURELISTS"/>
-        <parameter name="RT tolerance" unit="SECONDS">10.0</parameter>
+        <parameter name="RT tolerance" unit="SECONDS">4.0</parameter>
         <parameter name="Minimum feature height">10000.0</parameter>
         <parameter name="Intensity threshold for correlation">10000.0</parameter>
         <parameter name="Min samples filter">
@@ -362,14 +362,14 @@ def generate_positive_batch_mode(
             <parameter name="Min %-intensity overlap">0.0</parameter>
             <parameter name="Exclude gap-filled features">false</parameter>
         </parameter>
-        <parameter name="Feature shape correlation" selected="false">
+        <parameter name="Feature shape correlation" selected="true">
             <parameter name="Min data points">5</parameter>
             <parameter name="Min data points on edge">2</parameter>
             <parameter name="Measure">PEARSON</parameter>
             <parameter name="Min feature shape correlation">0.85</parameter>
             <parameter name="Min total correlation" selected="false">0.5</parameter>
         </parameter>
-        <parameter name="Feature height correlation" selected="false">
+        <parameter name="Feature height correlation" selected="true">
             <parameter name="Minimum samples">2</parameter>
             <parameter name="Measure">PEARSON</parameter>
             <parameter name="Min correlation">0.7</parameter>
@@ -385,7 +385,7 @@ def generate_positive_batch_mode(
         <parameter name="Feature lists" type="BATCH_LAST_FEATURELISTS"/>
         <parameter name="m/z tolerance (intra-sample)">
             <absolutetolerance>0.001</absolutetolerance>
-            <ppmtolerance>5.0</ppmtolerance>
+            <ppmtolerance>1.0</ppmtolerance>
         </parameter>
         <parameter name="Check">ALL FEATURES</parameter>
         <parameter name="Min height">10000.0</parameter>
@@ -487,8 +487,8 @@ def generate_positive_batch_mode(
         <parameter name="Annotation refinement" selected="true">
             <parameter name="Minimum size" selected="true">3</parameter>
             <parameter name="Delete small networks without major ion">true</parameter>
-            <parameter name="Delete smaller networks: Link threshold" selected="false">4</parameter>
-            <parameter name="Delete networks without monomer">true</parameter>
+            <parameter name="Delete smaller networks: Link threshold" selected="true">4</parameter>
+            <parameter name="Delete networks without monomer">false</parameter>
             <parameter name="Delete rows witout ion id">true</parameter>
         </parameter>
     </batchstep>
@@ -572,7 +572,7 @@ def generate_positive_batch_mode(
         </parameter>
         <parameter name="Intensity normalization" scientific="false">no_normalization</parameter>
         <parameter name="Feature intensity">Height</parameter>
-        <parameter name="CSV export">SIMPLE</parameter>
+        <parameter name="CSV export">COMPREHENSIVE</parameter>
         <parameter name="Submit to GNPS" selected="false">
             <parameter name="Meta data file" selected="false"/>
             <parameter name="Export ion identity networks">true</parameter>
