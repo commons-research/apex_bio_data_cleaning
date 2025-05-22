@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 from tqdm import tqdm
 
 from src.mzmine_utils import run_mzmine, write_mzbatch_file
+from src.summary import process_subdirs, write_summary
 
 load_dotenv()
 if not load_dotenv():
@@ -49,6 +50,10 @@ def run(df: pd.DataFrame, output_dir: str = "data", ionisation: str = "both"):
             )
             run_mzmine(path, file_name + ".mzbatch")
 
+    pos_summary, neg_summary = process_subdirs(output_dir)
+    write_summary(pos_summary, os.path.join(output_dir, "summary_pos.csv"))
+    write_summary(neg_summary, os.path.join(output_dir, "summary_neg.csv"))
+
 
 def create_feature_list(df: pd.DataFrame, cas_number: str, path: str) -> None:
     """Takes as input the dataframe of all compounds in the ApexBio library
@@ -77,7 +82,7 @@ def create_feature_list(df: pd.DataFrame, cas_number: str, path: str) -> None:
 def main():
     df = pd.read_csv("apex_bio_cleaned.tsv", sep="\t")
     df_plate_3 = df[df.rack_number == 3]
-    run(df_plate_3, output_dir="data", ionisation="both")
+    run(df_plate_3, output_dir="10_ppm_ms2_or_ion", ionisation="both")
 
 
 def copy_mzml_into_dir(apex_number_and_ion: str, output_dir: str) -> str:

@@ -14,5 +14,6 @@ dependencies = [
     "pubchempy>=1.0.4",
     "python-dotenv>=1.1.0",
     "rdkit>=2024.9.6",
+    "seaborn>=0.13.2",
     "tqdm>=4.67.1",
 ]

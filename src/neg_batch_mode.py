@@ -213,7 +213,7 @@ def generate_negative_batch_mode(
         <parameter name="Intensity tolerance">1.0</parameter>
         <parameter name="m/z tolerance (scan-to-scan)">
             <absolutetolerance>0.001</absolutetolerance>
-            <ppmtolerance>1.0</ppmtolerance>
+            <ppmtolerance>10.0</ppmtolerance>
         </parameter>
         <parameter name="Retention time tolerance" selected="true" unit="MINUTES">20.0</parameter>
         <parameter name="Mobility time tolerance" selected="false"/>
@@ -260,7 +260,7 @@ def generate_negative_batch_mode(
         <parameter name="Feature lists" type="BATCH_LAST_FEATURELISTS"/>
         <parameter name="MS1 to MS2 precursor tolerance (m/z)">
             <absolutetolerance>0.01</absolutetolerance>
-            <ppmtolerance>1.0</ppmtolerance>
+            <ppmtolerance>10.0</ppmtolerance>
         </parameter>
         <parameter name="Retention time filter" selected="Use feature edges" unit="MINUTES">0.2</parameter>
         <parameter name="Minimum relative feature height" selected="true">0.25</parameter>
@@ -314,7 +314,7 @@ def generate_negative_batch_mode(
         <parameter name="Feature lists" type="BATCH_LAST_FEATURELISTS"/>
         <parameter name="m/z tolerance (intra-sample)">
             <absolutetolerance>0.001</absolutetolerance>
-            <ppmtolerance>1.0</ppmtolerance>
+            <ppmtolerance>10.0</ppmtolerance>
         </parameter>
         <parameter name="Check">ALL FEATURES</parameter>
         <parameter name="Min height">10000.0</parameter>
@@ -418,7 +418,7 @@ def generate_negative_batch_mode(
         <parameter name="Filename">
             <current_file>{output_gnps}</current_file>
         </parameter>
-        <parameter name="Filter rows">ALL</parameter>
+        <parameter name="Filter rows">MS2 OR ION IDENTITY</parameter>
         <parameter name="Merge &amp; select fragment scans" selected_item="input_scans">
             <module name="simple_merged">
                 <parameter name="Presets">single_merged_scan</parameter>
@@ -486,7 +486,7 @@ def generate_negative_batch_mode(
         <parameter name="Combine to one file">true</parameter>
         <parameter name="Export IIN edges">true</parameter>
         <parameter name="Export IIN relationship edges">false</parameter>
-        <parameter name="Filter rows">ALL</parameter>
+        <parameter name="Filter rows">MS2 OR ION IDENTITY</parameter>
     </batchstep>
 </batch>
 """
