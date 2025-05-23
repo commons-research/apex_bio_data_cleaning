@@ -642,7 +642,7 @@ def generate_positive_batch_mode(
     <batchstep method="io.github.mzmine.modules.io.export_features_gnps.fbmn.GnpsFbmnExportAndSubmitModule" parameter_version="3">
         <parameter name="Feature lists" type="BATCH_LAST_FEATURELISTS"/>
         <parameter name="Filename">
-            <current_file>{output_sirius}</current_file>
+            <current_file>{output_gnps}</current_file>
         </parameter>
         <parameter name="Filter rows">ALL</parameter>
         <parameter name="Merge &amp; select fragment scans" selected_item="simple_merged">
@@ -686,7 +686,7 @@ def generate_positive_batch_mode(
     <batchstep method="io.github.mzmine.modules.io.export_features_sirius.SiriusExportModule" parameter_version="2">
         <parameter name="Feature lists" type="BATCH_LAST_FEATURELISTS"/>
         <parameter name="Filename">
-            <current_file>{output_gnps}</current_file>
+            <current_file>{output_sirius}</current_file>
         </parameter>
         <parameter name="Intensity normalization" scientific="true">no_normalization</parameter>
         <parameter name="Merge &amp; select fragment scans" selected_item="simple_merged">
