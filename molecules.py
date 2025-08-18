@@ -81,17 +81,17 @@ class Molecule(Hashable):
                     self.apex_valid_smiles = True
                     return
 
-                self.rdkit_molecule = Chem.MolFromSmiles(
-                    self.pubchem_compound.canonical_smiles
-                )
+                self.rdkit_molecule = Chem.MolFromInchi(self.pubchem_compound.inchi)
 
             except:
-                try:
-                    self.rdkit_molecule = Chem.MolFromSmiles(
-                        self.pubchem_compound.canonical_smiles
+                if isinstance(self.pubchem_compound, pcp.Compound):
+                    self.rdkit_molecule = Chem.MolFromInchi(self.pubchem_compound.inchi)
+                elif isinstance(self.pubchem_compound, list):
+                    self.rdkit_molecule = Chem.MolFromInchi(
+                        self.pubchem_compound[0].inchi
                     )
-                except:
-                    self.rdkit_molecule = None
+                else:
+                    raise ValueError("Invalid PubChem compound type")
 
     def get_rdkit_molecule(self) -> Optional[Mol]:
         """
@@ -260,7 +260,9 @@ class Molecule(Hashable):
             "pubchem_cid": (
                 self.pubchem_compound.cid
                 if isinstance(self.pubchem_compound, pcp.Compound)
-                else None
+                else self.pubchem_compound[
+                    0
+                ].cid  # if it is a list we get the first element (as per rdkit mol creation)
             ),
         }
         return pd.DataFrame(data, index=[0])

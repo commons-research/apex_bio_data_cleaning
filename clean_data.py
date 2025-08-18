@@ -77,7 +77,7 @@ def main():
     df = pd.read_excel(excel_file, sheet_name=1)
 
     # we want to save an unmodified version of the file to csv so that we can version control it
-    df.to_csv("apex_bio_revised.tsv", index=False, sep="\t")
+    df.to_csv("apex_bio_raw.tsv", index=False, sep="\t")
     molecules = generate_molecules(df)
     save_cleaned_molecules(molecules, output_file)
     return
