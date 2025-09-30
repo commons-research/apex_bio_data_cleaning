@@ -6,11 +6,10 @@ def generate_positive_batch_mode(
     feature_list: str,
     output_sirius: str,
     output_gnps: str,
-    output_correlation_annotations: str,
 ) -> str:
 
-    return f"""<?xml version="1.0" encoding="UTF-8"?><batch mzmine_version="4.6.1">
-    <batchstep method="io.github.mzmine.modules.io.import_rawdata_all.AllSpectralDataImportModule" parameter_version="1">
+    return f"""<?xml version="1.0" encoding="UTF-8"?><batch mzmine_version="4.7.8">
+    <batchstep method="io.github.mzmine.modules.io.import_rawdata_all.AllSpectralDataImportModule" module_name="Import MS data" parameter_version="1">
         <parameter name="File names">
             <file>{file_name}</file>
         </parameter>
@@ -87,7 +86,7 @@ def generate_positive_batch_mode(
         <parameter name="Sort and color">true</parameter>
         <parameter name="Spectral library files"/>
     </batchstep>
-    <batchstep method="io.github.mzmine.modules.dataprocessing.featdet_massdetection.MassDetectionModule" parameter_version="1">
+    <batchstep method="io.github.mzmine.modules.dataprocessing.featdet_massdetection.MassDetectionModule" module_name="Mass detection" parameter_version="1">
         <parameter name="Raw data files" type="BATCH_LAST_FILES"/>
         <parameter name="Scan filters" selected="true">
             <parameter name="Scan number"/>
@@ -129,21 +128,21 @@ def generate_positive_batch_mode(
             </module>
         </parameter>
     </batchstep>
-    <batchstep method="io.github.mzmine.modules.dataprocessing.featdet_massdetection.MassDetectionModule" parameter_version="1">
+    <batchstep method="io.github.mzmine.modules.dataprocessing.featdet_massdetection.MassDetectionModule" module_name="Mass detection" parameter_version="1">
         <parameter name="Raw data files" type="BATCH_LAST_FILES"/>
         <parameter name="Scan filters" selected="true">
             <parameter name="Scan number"/>
             <parameter name="Base Filtering Integer"/>
             <parameter name="Retention time"/>
             <parameter name="Mobility"/>
-            <parameter name="MS level filter" selected="MSn, level ≥ 2">3</parameter>
+            <parameter name="MS level filter" selected="MS2, level = 2">3</parameter>
             <parameter name="Scan definition"/>
             <parameter name="Polarity">Any</parameter>
             <parameter name="Spectrum type">ANY</parameter>
         </parameter>
         <parameter name="Scan types (IMS)">All scan types</parameter>
         <parameter name="Denormalize fragment scans (traps)">true</parameter>
-        <parameter name="Mass detector" selected_item="Factor of lowest signal">
+        <parameter name="Mass detector" selected_item="Centroid">
             <module name="Factor of lowest signal">
                 <parameter name="Noise factor">2.5</parameter>
             </module>
@@ -151,7 +150,7 @@ def generate_positive_batch_mode(
                 <parameter name="Noise level">100000.0</parameter>
             </module>
             <module name="Centroid">
-                <parameter name="Noise level">100000.0</parameter>
+                <parameter name="Noise level">0.0</parameter>
             </module>
             <module name="Exact mass">
                 <parameter name="Noise level"/>
@@ -171,7 +170,7 @@ def generate_positive_batch_mode(
             </module>
         </parameter>
     </batchstep>
-    <batchstep method="io.github.mzmine.modules.dataprocessing.featdet_adapchromatogrambuilder.ModularADAPChromatogramBuilderModule" parameter_version="1">
+    <batchstep method="io.github.mzmine.modules.dataprocessing.featdet_adapchromatogrambuilder.ModularADAPChromatogramBuilderModule" module_name="Chromatogram builder" parameter_version="1">
         <parameter name="Raw data files" type="BATCH_LAST_FILES"/>
         <parameter name="Scan filters" selected="true">
             <parameter name="Scan number"/>
@@ -193,7 +192,7 @@ def generate_positive_batch_mode(
         <parameter name="Suffix">eics</parameter>
         <parameter name="Allow single scan chromatograms"/>
     </batchstep>
-    <batchstep method="io.github.mzmine.modules.dataprocessing.featdet_smoothing.SmoothingModule" parameter_version="1">
+    <batchstep method="io.github.mzmine.modules.dataprocessing.featdet_smoothing.SmoothingModule" module_name="Smoothing" parameter_version="1">
         <parameter name="Feature lists" type="BATCH_LAST_FEATURELISTS"/>
         <parameter name="Smoothing algorithm" selected_item="Savitzky Golay">
             <module name="Loess smoothing">
@@ -208,7 +207,7 @@ def generate_positive_batch_mode(
         <parameter name="Original feature list">REMOVE</parameter>
         <parameter name="Suffix">sm</parameter>
     </batchstep>
-    <batchstep method="io.github.mzmine.modules.dataprocessing.featdet_chromatogramdeconvolution.minimumsearch.MinimumSearchFeatureResolverModule" parameter_version="2">
+    <batchstep method="io.github.mzmine.modules.dataprocessing.featdet_chromatogramdeconvolution.minimumsearch.MinimumSearchFeatureResolverModule" module_name="Local minimum feature resolver" parameter_version="2">
         <parameter name="Feature lists" type="BATCH_LAST_FEATURELISTS"/>
         <parameter name="Suffix">r</parameter>
         <parameter name="Original feature list">REMOVE</parameter>
@@ -241,7 +240,7 @@ def generate_positive_batch_mode(
         </parameter>
         <parameter name="Minimum scans (data points)">5</parameter>
     </batchstep>
-    <batchstep method="io.github.mzmine.modules.dataprocessing.filter_isotopefinder.IsotopeFinderModule" parameter_version="1">
+    <batchstep method="io.github.mzmine.modules.dataprocessing.filter_isotopefinder.IsotopeFinderModule" module_name="Isotopic peaks finder" parameter_version="1">
         <parameter name="Feature lists" type="BATCH_LAST_FEATURELISTS"/>
         <parameter name="Chemical elements">H,C,N,O,S</parameter>
         <parameter name="m/z tolerance (feature-to-scan)">
@@ -251,7 +250,7 @@ def generate_positive_batch_mode(
         <parameter name="Maximum charge of isotope m/z">1</parameter>
         <parameter name="Search in scans">SINGLE MOST INTENSE</parameter>
     </batchstep>
-    <batchstep method="io.github.mzmine.modules.dataprocessing.id_localcsvsearch.LocalCSVDatabaseSearchModule" parameter_version="1">
+    <batchstep method="io.github.mzmine.modules.dataprocessing.id_localcsvsearch.LocalCSVDatabaseSearchModule" module_name="Local compound database search" parameter_version="1">
         <parameter name="Feature lists" type="BATCH_LAST_FEATURELISTS"/>
         <parameter name="Database file">
             <current_file>{feature_list}</current_file>
@@ -388,12 +387,67 @@ def generate_positive_batch_mode(
                 <adduct_type selected="true">
                     <subpart charge="1" mass_difference="0.0" mol_formula="" name="e" type="ADDUCT"/>
                 </adduct_type>
+                <modification_type selected="false">
+                    <subpart charge="0" mass_difference="-18.010565" mol_formula="H2O" name="H2O" type="NEUTRAL_LOSS"/>
+                </modification_type>
+                <modification_type selected="false">
+                    <subpart charge="0" mass_difference="-18.010565" mol_formula="H2O" name="H2O" type="NEUTRAL_LOSS"/>
+                    <subpart charge="0" mass_difference="-18.010565" mol_formula="H2O" name="H2O" type="NEUTRAL_LOSS"/>
+                </modification_type>
+                <modification_type selected="false">
+                    <subpart charge="0" mass_difference="-18.010565" mol_formula="H2O" name="H2O" type="NEUTRAL_LOSS"/>
+                    <subpart charge="0" mass_difference="-18.010565" mol_formula="H2O" name="H2O" type="NEUTRAL_LOSS"/>
+                    <subpart charge="0" mass_difference="-18.010565" mol_formula="H2O" name="H2O" type="NEUTRAL_LOSS"/>
+                </modification_type>
+                <modification_type selected="false">
+                    <subpart charge="0" mass_difference="-18.010565" mol_formula="H2O" name="H2O" type="NEUTRAL_LOSS"/>
+                    <subpart charge="0" mass_difference="-18.010565" mol_formula="H2O" name="H2O" type="NEUTRAL_LOSS"/>
+                    <subpart charge="0" mass_difference="-18.010565" mol_formula="H2O" name="H2O" type="NEUTRAL_LOSS"/>
+                    <subpart charge="0" mass_difference="-18.010565" mol_formula="H2O" name="H2O" type="NEUTRAL_LOSS"/>
+                </modification_type>
+                <modification_type selected="false">
+                    <subpart charge="0" mass_difference="-18.010565" mol_formula="H2O" name="H2O" type="NEUTRAL_LOSS"/>
+                    <subpart charge="0" mass_difference="-18.010565" mol_formula="H2O" name="H2O" type="NEUTRAL_LOSS"/>
+                    <subpart charge="0" mass_difference="-18.010565" mol_formula="H2O" name="H2O" type="NEUTRAL_LOSS"/>
+                    <subpart charge="0" mass_difference="-18.010565" mol_formula="H2O" name="H2O" type="NEUTRAL_LOSS"/>
+                    <subpart charge="0" mass_difference="-18.010565" mol_formula="H2O" name="H2O" type="NEUTRAL_LOSS"/>
+                </modification_type>
+                <modification_type selected="false">
+                    <subpart charge="0" mass_difference="-17.026549" mol_formula="NH3" name="NH3" type="NEUTRAL_LOSS"/>
+                </modification_type>
+                <modification_type selected="false">
+                    <subpart charge="0" mass_difference="15.99491462" mol_formula="O" name="O" type="CLUSTER"/>
+                </modification_type>
+                <modification_type selected="false">
+                    <subpart charge="0" mass_difference="-27.994915" mol_formula="CO" name="CO" type="NEUTRAL_LOSS"/>
+                </modification_type>
+                <modification_type selected="false">
+                    <subpart charge="0" mass_difference="-43.989829" mol_formula="CO2" name="CO2" type="NEUTRAL_LOSS"/>
+                </modification_type>
+                <modification_type selected="false">
+                    <subpart charge="0" mass_difference="-28.031301" mol_formula="C2H4" name="C2H4" type="NEUTRAL_LOSS"/>
+                </modification_type>
+                <modification_type selected="false">
+                    <subpart charge="0" mass_difference="46.005479" mol_formula="CHOOH" name="HFA" type="CLUSTER"/>
+                </modification_type>
+                <modification_type selected="false">
+                    <subpart charge="0" mass_difference="60.021129" mol_formula="CH3COOH" name="HAc" type="CLUSTER"/>
+                </modification_type>
+                <modification_type selected="false">
+                    <subpart charge="0" mass_difference="32.026215" mol_formula="CH3OH" name="MeOH" type="CLUSTER"/>
+                </modification_type>
+                <modification_type selected="false">
+                    <subpart charge="0" mass_difference="41.026549" mol_formula="CH3CN" name="ACN" type="CLUSTER"/>
+                </modification_type>
+                <modification_type selected="false">
+                    <subpart charge="0" mass_difference="60.058064" mol_formula="C3H8O" name="IsoProp" type="CLUSTER"/>
+                </modification_type>
             </parameter>
         </parameter>
         <parameter name="Filter filename header" selected="false">unique_sample_id</parameter>
         <parameter name="Append comment fields"/>
     </batchstep>
-    <batchstep method="io.github.mzmine.modules.dataprocessing.align_join.JoinAlignerModule" parameter_version="1">
+    <batchstep method="io.github.mzmine.modules.dataprocessing.align_join.JoinAlignerModule" module_name="Join aligner" parameter_version="1">
         <parameter name="Feature lists" type="BATCH_LAST_FEATURELISTS"/>
         <parameter name="Feature list name">Aligned feature list</parameter>
         <parameter name="m/z tolerance (sample-to-sample)">
@@ -436,7 +490,7 @@ def generate_positive_batch_mode(
         </parameter>
         <parameter name="Original feature list">REMOVE</parameter>
     </batchstep>
-    <batchstep method="io.github.mzmine.modules.dataprocessing.filter_rowsfilter.RowsFilterModule" parameter_version="2">
+    <batchstep method="io.github.mzmine.modules.dataprocessing.filter_rowsfilter.RowsFilterModule" module_name="Feature list rows filter" parameter_version="2">
         <parameter name="Feature lists" type="BATCH_LAST_FEATURELISTS"/>
         <parameter name="Name suffix">filter</parameter>
         <parameter name="Minimum aligned features (samples)" selected="false">
@@ -480,10 +534,15 @@ def generate_positive_batch_mode(
             <parameter name="Divisor">1</parameter>
             <parameter name="Use Remainder of Kendrick mass">false</parameter>
         </parameter>
-        <parameter name="Parameter">No parameters defined</parameter>
         <parameter name="Only identified?">true</parameter>
         <parameter name="Text in identity" selected="false"/>
         <parameter name="Text in comment" selected="false"/>
+        <parameter name="RSD filter" selected="false">
+            <parameter column="mzmine_sample_type" group="qc" name="Sample grouping"/>
+            <parameter name="Maximum RSD">0.2</parameter>
+            <parameter name="Abundance measure">Area</parameter>
+            <parameter name="Keep undetected">false</parameter>
+        </parameter>
         <parameter name="Keep or remove rows">Keep rows that match all criteria</parameter>
         <parameter name="Feature with MS2 scan">false</parameter>
         <parameter name="Never remove feature with MS2">false</parameter>
@@ -492,7 +551,7 @@ def generate_positive_batch_mode(
         <parameter name="Mass defect" selected="false"/>
         <parameter name="Original feature list">KEEP</parameter>
     </batchstep>
-    <batchstep method="io.github.mzmine.modules.dataprocessing.group_metacorrelate.corrgrouping.CorrelateGroupingModule" parameter_version="3">
+    <batchstep method="io.github.mzmine.modules.dataprocessing.group_metacorrelate.corrgrouping.CorrelateGroupingModule" module_name="Correlation grouping (metaCorrelate)" parameter_version="3">
         <parameter name="Feature lists" type="BATCH_LAST_FEATURELISTS"/>
         <parameter name="RT tolerance" unit="MINUTES">0.06</parameter>
         <parameter name="Minimum feature height">0.0</parameter>
@@ -528,7 +587,7 @@ def generate_positive_batch_mode(
             <parameter name="Simplify for ≥ samples">250</parameter>
         </parameter>
     </batchstep>
-    <batchstep method="io.github.mzmine.modules.dataprocessing.id_ion_identity_networking.ionidnetworking.IonNetworkingModule" parameter_version="1">
+    <batchstep method="io.github.mzmine.modules.dataprocessing.id_ion_identity_networking.ionidnetworking.IonNetworkingModule" module_name="Ion identity networking" parameter_version="1">
         <parameter name="Feature lists" type="BATCH_LAST_FEATURELISTS"/>
         <parameter name="m/z tolerance (intra-sample)">
             <absolutetolerance>0.0015</absolutetolerance>
@@ -629,6 +688,61 @@ def generate_positive_batch_mode(
                 <adduct_type selected="true">
                     <subpart charge="1" mass_difference="0.0" mol_formula="" name="e" type="ADDUCT"/>
                 </adduct_type>
+                <modification_type selected="false">
+                    <subpart charge="0" mass_difference="-18.010565" mol_formula="H2O" name="H2O" type="NEUTRAL_LOSS"/>
+                </modification_type>
+                <modification_type selected="false">
+                    <subpart charge="0" mass_difference="-18.010565" mol_formula="H2O" name="H2O" type="NEUTRAL_LOSS"/>
+                    <subpart charge="0" mass_difference="-18.010565" mol_formula="H2O" name="H2O" type="NEUTRAL_LOSS"/>
+                </modification_type>
+                <modification_type selected="false">
+                    <subpart charge="0" mass_difference="-18.010565" mol_formula="H2O" name="H2O" type="NEUTRAL_LOSS"/>
+                    <subpart charge="0" mass_difference="-18.010565" mol_formula="H2O" name="H2O" type="NEUTRAL_LOSS"/>
+                    <subpart charge="0" mass_difference="-18.010565" mol_formula="H2O" name="H2O" type="NEUTRAL_LOSS"/>
+                </modification_type>
+                <modification_type selected="false">
+                    <subpart charge="0" mass_difference="-18.010565" mol_formula="H2O" name="H2O" type="NEUTRAL_LOSS"/>
+                    <subpart charge="0" mass_difference="-18.010565" mol_formula="H2O" name="H2O" type="NEUTRAL_LOSS"/>
+                    <subpart charge="0" mass_difference="-18.010565" mol_formula="H2O" name="H2O" type="NEUTRAL_LOSS"/>
+                    <subpart charge="0" mass_difference="-18.010565" mol_formula="H2O" name="H2O" type="NEUTRAL_LOSS"/>
+                </modification_type>
+                <modification_type selected="false">
+                    <subpart charge="0" mass_difference="-18.010565" mol_formula="H2O" name="H2O" type="NEUTRAL_LOSS"/>
+                    <subpart charge="0" mass_difference="-18.010565" mol_formula="H2O" name="H2O" type="NEUTRAL_LOSS"/>
+                    <subpart charge="0" mass_difference="-18.010565" mol_formula="H2O" name="H2O" type="NEUTRAL_LOSS"/>
+                    <subpart charge="0" mass_difference="-18.010565" mol_formula="H2O" name="H2O" type="NEUTRAL_LOSS"/>
+                    <subpart charge="0" mass_difference="-18.010565" mol_formula="H2O" name="H2O" type="NEUTRAL_LOSS"/>
+                </modification_type>
+                <modification_type selected="false">
+                    <subpart charge="0" mass_difference="-17.026549" mol_formula="NH3" name="NH3" type="NEUTRAL_LOSS"/>
+                </modification_type>
+                <modification_type selected="false">
+                    <subpart charge="0" mass_difference="15.99491462" mol_formula="O" name="O" type="CLUSTER"/>
+                </modification_type>
+                <modification_type selected="false">
+                    <subpart charge="0" mass_difference="-27.994915" mol_formula="CO" name="CO" type="NEUTRAL_LOSS"/>
+                </modification_type>
+                <modification_type selected="false">
+                    <subpart charge="0" mass_difference="-43.989829" mol_formula="CO2" name="CO2" type="NEUTRAL_LOSS"/>
+                </modification_type>
+                <modification_type selected="false">
+                    <subpart charge="0" mass_difference="-28.031301" mol_formula="C2H4" name="C2H4" type="NEUTRAL_LOSS"/>
+                </modification_type>
+                <modification_type selected="false">
+                    <subpart charge="0" mass_difference="46.005479" mol_formula="CHOOH" name="HFA" type="CLUSTER"/>
+                </modification_type>
+                <modification_type selected="false">
+                    <subpart charge="0" mass_difference="60.021129" mol_formula="CH3COOH" name="HAc" type="CLUSTER"/>
+                </modification_type>
+                <modification_type selected="false">
+                    <subpart charge="0" mass_difference="32.026215" mol_formula="CH3OH" name="MeOH" type="CLUSTER"/>
+                </modification_type>
+                <modification_type selected="false">
+                    <subpart charge="0" mass_difference="41.026549" mol_formula="CH3CN" name="ACN" type="CLUSTER"/>
+                </modification_type>
+                <modification_type selected="false">
+                    <subpart charge="0" mass_difference="60.058064" mol_formula="C3H8O" name="IsoProp" type="CLUSTER"/>
+                </modification_type>
             </parameter>
         </parameter>
         <parameter name="Annotation refinement" selected="true">
@@ -639,7 +753,7 @@ def generate_positive_batch_mode(
             <parameter name="Delete rows witout ion id">true</parameter>
         </parameter>
     </batchstep>
-    <batchstep method="io.github.mzmine.modules.io.export_features_gnps.fbmn.GnpsFbmnExportAndSubmitModule" parameter_version="3">
+    <batchstep method="io.github.mzmine.modules.io.export_features_gnps.fbmn.GnpsFbmnExportAndSubmitModule" module_name="Export molecular networking files (e.g., GNPS, FBMN, IIMN, MetGem)" parameter_version="3">
         <parameter name="Feature lists" type="BATCH_LAST_FEATURELISTS"/>
         <parameter name="Filename">
             <current_file>{output_gnps}</current_file>
@@ -683,7 +797,7 @@ def generate_positive_batch_mode(
         </parameter>
         <parameter name="Open folder">false</parameter>
     </batchstep>
-    <batchstep method="io.github.mzmine.modules.io.export_features_sirius.SiriusExportModule" parameter_version="2">
+    <batchstep method="io.github.mzmine.modules.io.export_features_sirius.SiriusExportModule" module_name="Export for SIRIUS" parameter_version="2">
         <parameter name="Feature lists" type="BATCH_LAST_FEATURELISTS"/>
         <parameter name="Filename">
             <current_file>{output_sirius}</current_file>
@@ -713,8 +827,8 @@ def generate_positive_batch_mode(
             </module>
             <module name="advanced">
                 <parameter name="Merging options">
-                    <selected>Across energies</selected>
                     <selected>Across samples</selected>
+                    <selected>Across energies</selected>
                 </parameter>
                 <parameter name="m/z tolerance">
                     <absolutetolerance>0.008</absolutetolerance>

@@ -26,18 +26,17 @@ def run(df: pd.DataFrame, output_dir: str = "data", ionisation: str = "both"):
     else:
         raise ValueError("Ionisation must be 'pos', 'neg' or 'both'. ")
 
-    unique_cas_numbers = df["apex_cas_number"].unique()
+    unique_pubchem_cid = df["pubchem_cid"].unique()
 
-    for cas_number in tqdm(unique_cas_numbers, desc="Analyzing data", unit="molecule"):
-        cas_number_for_dir = cas_number.replace("-", "_").split(",")[0]
+    for pubchem_id in tqdm(unique_pubchem_cid, desc="Analyzing data", unit="molecule"):
 
         for ion in ionisations:
-            file_name = cas_number_for_dir + "_" + ion
+            file_name = pubchem_id + "_" + ion
             path = os.path.join(output_dir, file_name)
             os.makedirs(path, exist_ok=True)
             create_feature_list(
                 df,
-                cas_number,
+                pubchem_id,
                 path,
             )
             mzml_file_name = copy_mzml_into_dir(file_name, path)
@@ -55,12 +54,12 @@ def run(df: pd.DataFrame, output_dir: str = "data", ionisation: str = "both"):
     write_summary(neg_summary, os.path.join(output_dir, "summary_neg.csv"))
 
 
-def create_feature_list(df: pd.DataFrame, cas_number: str, path: str) -> None:
+def create_feature_list(df: pd.DataFrame, pubchem_id: str, path: str) -> None:
     """Takes as input the dataframe of all compounds in the ApexBio library
-    and filters the rows where the cas_number is the one given in input (should be mostly one single row).
+    and filters the rows where the pubchem_id is the one given in input (should be mostly one single row).
     Then it saves a csv that will be used by MZmine as the target feature list.
     """
-    row = df[df["apex_cas_number"] == cas_number]
+    row = df[df["pubchem_cid"] == pubchem_id]
 
     # Créer le DataFrame CSV
     df_csv = {}

@@ -6,10 +6,9 @@ def generate_negative_batch_mode(
     feature_list: str,
     output_sirius: str,
     output_gnps: str,
-    output_correlation_annotations: str,
 ) -> str:
-    return f"""<?xml version="1.0" encoding="UTF-8"?><batch mzmine_version="4.6.1">
-    <batchstep method="io.github.mzmine.modules.io.import_rawdata_all.AllSpectralDataImportModule" parameter_version="1">
+    return f"""<?xml version="1.0" encoding="UTF-8"?><batch mzmine_version="4.7.27">
+    <batchstep method="io.github.mzmine.modules.io.import_rawdata_all.AllSpectralDataImportModule" module_name="Import MS data" parameter_version="1">
         <parameter name="File names">
             <file>{mzml_file}</file>
         </parameter>
@@ -88,7 +87,7 @@ def generate_negative_batch_mode(
         <parameter name="Sort and color">true</parameter>
         <parameter name="Spectral library files"/>
     </batchstep>
-    <batchstep method="io.github.mzmine.modules.dataprocessing.featdet_massdetection.MassDetectionModule" parameter_version="1">
+    <batchstep method="io.github.mzmine.modules.dataprocessing.featdet_massdetection.MassDetectionModule" module_name="Mass detection" parameter_version="1">
         <parameter name="Raw data files" type="BATCH_LAST_FILES"/>
         <parameter name="Scan filters" selected="true">
             <parameter name="Scan number"/>
@@ -130,7 +129,7 @@ def generate_negative_batch_mode(
             </module>
         </parameter>
     </batchstep>
-    <batchstep method="io.github.mzmine.modules.dataprocessing.featdet_massdetection.MassDetectionModule" parameter_version="1">
+    <batchstep method="io.github.mzmine.modules.dataprocessing.featdet_massdetection.MassDetectionModule" module_name="Mass detection" parameter_version="1">
         <parameter name="Raw data files" type="BATCH_LAST_FILES"/>
         <parameter name="Scan filters" selected="true">
             <parameter name="Scan number"/>
@@ -172,7 +171,7 @@ def generate_negative_batch_mode(
             </module>
         </parameter>
     </batchstep>
-    <batchstep method="io.github.mzmine.modules.dataprocessing.featdet_adapchromatogrambuilder.ModularADAPChromatogramBuilderModule" parameter_version="1">
+    <batchstep method="io.github.mzmine.modules.dataprocessing.featdet_adapchromatogrambuilder.ModularADAPChromatogramBuilderModule" module_name="Chromatogram builder" parameter_version="1">
         <parameter name="Raw data files" type="BATCH_LAST_FILES"/>
         <parameter name="Scan filters" selected="true">
             <parameter name="Scan number"/>
@@ -194,7 +193,7 @@ def generate_negative_batch_mode(
         <parameter name="Suffix">eics</parameter>
         <parameter name="Allow single scan chromatograms"/>
     </batchstep>
-    <batchstep method="io.github.mzmine.modules.dataprocessing.featdet_smoothing.SmoothingModule" parameter_version="1">
+    <batchstep method="io.github.mzmine.modules.dataprocessing.featdet_smoothing.SmoothingModule" module_name="Smoothing" parameter_version="1">
         <parameter name="Feature lists" type="BATCH_LAST_FEATURELISTS"/>
         <parameter name="Smoothing algorithm" selected_item="Savitzky Golay">
             <module name="Loess smoothing">
@@ -209,7 +208,7 @@ def generate_negative_batch_mode(
         <parameter name="Original feature list">REMOVE</parameter>
         <parameter name="Suffix">sm</parameter>
     </batchstep>
-    <batchstep method="io.github.mzmine.modules.dataprocessing.featdet_chromatogramdeconvolution.minimumsearch.MinimumSearchFeatureResolverModule" parameter_version="2">
+    <batchstep method="io.github.mzmine.modules.dataprocessing.featdet_chromatogramdeconvolution.minimumsearch.MinimumSearchFeatureResolverModule" module_name="Local minimum feature resolver" parameter_version="2">
         <parameter name="Feature lists" type="BATCH_LAST_FEATURELISTS"/>
         <parameter name="Suffix">r</parameter>
         <parameter name="Original feature list">REMOVE</parameter>
@@ -242,7 +241,7 @@ def generate_negative_batch_mode(
         </parameter>
         <parameter name="Minimum scans (data points)">5</parameter>
     </batchstep>
-    <batchstep method="io.github.mzmine.modules.dataprocessing.filter_isotopefinder.IsotopeFinderModule" parameter_version="1">
+    <batchstep method="io.github.mzmine.modules.dataprocessing.filter_isotopefinder.IsotopeFinderModule" module_name="Isotopic peaks finder" parameter_version="1">
         <parameter name="Feature lists" type="BATCH_LAST_FEATURELISTS"/>
         <parameter name="Chemical elements">H,C,N,O,S</parameter>
         <parameter name="m/z tolerance (feature-to-scan)">
@@ -252,7 +251,7 @@ def generate_negative_batch_mode(
         <parameter name="Maximum charge of isotope m/z">1</parameter>
         <parameter name="Search in scans">SINGLE MOST INTENSE</parameter>
     </batchstep>
-    <batchstep method="io.github.mzmine.modules.dataprocessing.id_localcsvsearch.LocalCSVDatabaseSearchModule" parameter_version="1">
+    <batchstep method="io.github.mzmine.modules.dataprocessing.id_localcsvsearch.LocalCSVDatabaseSearchModule" module_name="Local compound database search" parameter_version="2">
         <parameter name="Feature lists" type="BATCH_LAST_FEATURELISTS"/>
         <parameter name="Database file">
             <current_file>{feature_list}</current_file>
@@ -280,14 +279,18 @@ def generate_negative_batch_mode(
             <importtype column="npclassifier_superclass" datatype="io.github.mzmine.datamodel.features.types.annotations.compounddb.NPClassifierSuperclassType" selected="false"/>
             <importtype column="npclassifier_class" datatype="io.github.mzmine.datamodel.features.types.annotations.compounddb.NPClassifierClassType" selected="false"/>
             <importtype column="npclassifier_pathway" datatype="io.github.mzmine.datamodel.features.types.annotations.compounddb.NPClassifierPathwayType" selected="false"/>
+            <importtype column="q3_quantifier_mz" datatype="io.github.mzmine.datamodel.features.types.numbers.Q3QuantMzType" selected="false"/>
+            <importtype column="iupac_name" datatype="io.github.mzmine.datamodel.features.types.identifiers.IupacNameType" selected="false"/>
+            <importtype column="cas" datatype="io.github.mzmine.datamodel.features.types.identifiers.CASType" selected="false"/>
+            <importtype column="internal_id" datatype="io.github.mzmine.datamodel.features.types.identifiers.InternalIdType" selected="false"/>
         </parameter>
         <parameter name="m/z tolerance">
             <absolutetolerance>0.002</absolutetolerance>
             <ppmtolerance>10.0</ppmtolerance>
         </parameter>
-        <parameter name="Retention time tolerance" unit="MINUTES">0.1</parameter>
-        <parameter name="Mobility time tolerance">0.01</parameter>
-        <parameter name="CCS tolerance (%)">0.05</parameter>
+        <parameter name="Retention time tolerance" selected="false" unit="MINUTES">0.1</parameter>
+        <parameter name="Mobility time tolerance" selected="false">0.01</parameter>
+        <parameter name="CCS tolerance (%)" selected="false">0.05</parameter>
         <parameter name="Use isotope matcher" selected="true">
             <parameter name="Isotope m/z tolerance">
                 <absolutetolerance>0.005</absolutetolerance>
@@ -335,9 +338,9 @@ def generate_negative_batch_mode(
             </parameter>
         </parameter>
         <parameter name="Filter filename header" selected="false">unique_sample_id</parameter>
-        <parameter name="Append comment fields"/>
+        <parameter name="Additional columns" selected="ignore"/>
     </batchstep>
-    <batchstep method="io.github.mzmine.modules.dataprocessing.align_join.JoinAlignerModule" parameter_version="1">
+    <batchstep method="io.github.mzmine.modules.dataprocessing.align_join.JoinAlignerModule" module_name="Join aligner" parameter_version="1">
         <parameter name="Feature lists" type="BATCH_LAST_FEATURELISTS"/>
         <parameter name="Feature list name">Aligned feature list</parameter>
         <parameter name="m/z tolerance (sample-to-sample)">
@@ -380,14 +383,47 @@ def generate_negative_batch_mode(
         </parameter>
         <parameter name="Original feature list">REMOVE</parameter>
     </batchstep>
-    <batchstep method="io.github.mzmine.modules.dataprocessing.filter_rowsfilter.RowsFilterModule" parameter_version="2">
+    <batchstep method="io.github.mzmine.modules.dataprocessing.filter_rowsfilter.RowsFilterModule" module_name="Feature list rows filter" parameter_version="3">
         <parameter name="Feature lists" type="BATCH_LAST_FEATURELISTS"/>
         <parameter name="Name suffix">filter</parameter>
-        <parameter name="Minimum aligned features (samples)" selected="false">
+        <parameter name="Keep or remove rows">Keep rows that match all criteria</parameter>
+        <parameter name="Original feature list">KEEP</parameter>
+        <parameter name="Minimum aligned samples" selected="false">
             <abs>1</abs>
             <rel>0.0</rel>
         </parameter>
-        <parameter name="Minimum features in an isotope pattern" selected="false">2</parameter>
+        <parameter name="Minimum aligned samples (in any group)" selected="false">
+            <parameter name="Minimum samples">
+                <abs>1</abs>
+                <rel>0.0</rel>
+            </parameter>
+            <parameter name="Metadata grouping"/>
+        </parameter>
+        <parameter name="Minimum aligned samples (in one group)" selected="false">
+            <parameter name="Minimum samples">
+                <abs>1</abs>
+                <rel>0.0</rel>
+            </parameter>
+            <parameter column="" group="" name="Sample grouping"/>
+        </parameter>
+        <parameter name="RSD filter" selected="false">
+            <parameter name="Abundance measure">Area</parameter>
+            <parameter name="Missing value imputation">GLOBAL_LIMIT_OF_DETECTION</parameter>
+            <parameter column="mzmine_sample_type" group="qc" name="Sample grouping"/>
+            <parameter name="Maximum missing values">0.2</parameter>
+            <parameter name="Maximum RSD">0.2</parameter>
+            <parameter name="Keep undetected">false</parameter>
+        </parameter>
+        <parameter name="Significance/fold-change filter" selected="false">
+            <parameter name="Abundance measure">Height</parameter>
+            <parameter name="Missing value imputation">GLOBAL_LIMIT_OF_DETECTION</parameter>
+            <parameter column="" groupA="" groupB="" name="Metadata selection"/>
+            <parameter name="Significance test">WELCHS_T_TEST</parameter>
+            <parameter name="Maximum p-value">0.05</parameter>
+            <parameter name="log2(fold-change) threshold">1.0</parameter>
+            <parameter name="Fold-change filter">abs_both_sides</parameter>
+        </parameter>
+        <parameter name="Minimum signals in an isotope pattern" selected="false">2</parameter>
         <parameter name="Validate 13C isotope pattern" selected="false">
             <parameter name="m/z tolerance">
                 <absolutetolerance>5.0E-4</absolutetolerance>
@@ -401,7 +437,7 @@ def generate_negative_batch_mode(
         <parameter name="Remove redundant isotope rows">false</parameter>
         <parameter name="m/z" selected="false"/>
         <parameter name="Retention time" selected="false"/>
-        <parameter name="features duration range" selected="false">
+        <parameter name="Chromatographic width" selected="false">
             <min>0.0</min>
             <max>3.0</max>
         </parameter>
@@ -413,6 +449,7 @@ def generate_negative_batch_mode(
             <min>1</min>
             <max>2</max>
         </parameter>
+        <parameter name="Mass defect" selected="false"/>
         <parameter name="Kendrick mass defect" selected="false">
             <parameter name="Kendrick mass defect">
                 <min>0.0</min>
@@ -424,19 +461,16 @@ def generate_negative_batch_mode(
             <parameter name="Divisor">1</parameter>
             <parameter name="Use Remainder of Kendrick mass">false</parameter>
         </parameter>
-        <parameter name="Parameter">No parameters defined</parameter>
         <parameter name="Only identified?">true</parameter>
         <parameter name="Text in identity" selected="false"/>
         <parameter name="Text in comment" selected="false"/>
-        <parameter name="Keep or remove rows">Keep rows that match all criteria</parameter>
-        <parameter name="Feature with MS2 scan">false</parameter>
-        <parameter name="Never remove feature with MS2">false</parameter>
+        <parameter name="Require MS2 scan">false</parameter>
+        <parameter name="Require other detector correlation">false</parameter>
+        <parameter name="Never remove rows with MS2">false</parameter>
         <parameter name="Never remove annotated rows">false</parameter>
-        <parameter name="Reset the feature number ID">false</parameter>
-        <parameter name="Mass defect" selected="false"/>
-        <parameter name="Original feature list">KEEP</parameter>
+        <parameter name="Reset the row ID">false</parameter>
     </batchstep>
-    <batchstep method="io.github.mzmine.modules.dataprocessing.group_metacorrelate.corrgrouping.CorrelateGroupingModule" parameter_version="3">
+    <batchstep method="io.github.mzmine.modules.dataprocessing.group_metacorrelate.corrgrouping.CorrelateGroupingModule" module_name="Correlation grouping (metaCorrelate)" parameter_version="3">
         <parameter name="Feature lists" type="BATCH_LAST_FEATURELISTS"/>
         <parameter name="RT tolerance" unit="MINUTES">0.06</parameter>
         <parameter name="Minimum feature height">0.0</parameter>
@@ -472,7 +506,7 @@ def generate_negative_batch_mode(
             <parameter name="Simplify for ≥ samples">250</parameter>
         </parameter>
     </batchstep>
-    <batchstep method="io.github.mzmine.modules.dataprocessing.id_ion_identity_networking.ionidnetworking.IonNetworkingModule" parameter_version="1">
+    <batchstep method="io.github.mzmine.modules.dataprocessing.id_ion_identity_networking.ionidnetworking.IonNetworkingModule" module_name="Ion identity networking" parameter_version="1">
         <parameter name="Feature lists" type="BATCH_LAST_FEATURELISTS"/>
         <parameter name="m/z tolerance (intra-sample)">
             <absolutetolerance>0.0015</absolutetolerance>
@@ -526,7 +560,7 @@ def generate_negative_batch_mode(
             <parameter name="Delete rows witout ion id">true</parameter>
         </parameter>
     </batchstep>
-    <batchstep method="io.github.mzmine.modules.io.export_features_gnps.fbmn.GnpsFbmnExportAndSubmitModule" parameter_version="3">
+    <batchstep method="io.github.mzmine.modules.io.export_features_gnps.fbmn.GnpsFbmnExportAndSubmitModule" module_name="Export molecular networking files (e.g., GNPS, FBMN, IIMN, MetGem)" parameter_version="3">
         <parameter name="Feature lists" type="BATCH_LAST_FEATURELISTS"/>
         <parameter name="Filename">
             <current_file>{output_gnps}</current_file>
@@ -570,7 +604,7 @@ def generate_negative_batch_mode(
         </parameter>
         <parameter name="Open folder">false</parameter>
     </batchstep>
-    <batchstep method="io.github.mzmine.modules.io.export_features_sirius.SiriusExportModule" parameter_version="2">
+    <batchstep method="io.github.mzmine.modules.io.export_features_sirius.SiriusExportModule" module_name="Export for SIRIUS" parameter_version="2">
         <parameter name="Feature lists" type="BATCH_LAST_FEATURELISTS"/>
         <parameter name="Filename">
             <current_file>{output_sirius}</current_file>

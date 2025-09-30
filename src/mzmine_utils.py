@@ -22,7 +22,6 @@ def write_mzbatch_file(
             os.path.join(os.getcwd(), parent_dir, "feature_list.csv"),
             os.path.join(os.getcwd(), parent_dir, f"{cas_number_ion_str}_sirius.mgf"),
             os.path.join(os.getcwd(), parent_dir, f"{cas_number_ion_str}_gnps.mgf"),
-            os.path.join(os.getcwd(), parent_dir, f"{cas_number_ion_str}.csv"),
         )
     elif ionisation == "neg":
         batch_file = generate_negative_batch_mode(
@@ -30,7 +29,6 @@ def write_mzbatch_file(
             os.path.join(os.getcwd(), parent_dir, "feature_list.csv"),
             os.path.join(os.getcwd(), parent_dir, f"{cas_number_ion_str}_sirius.mgf"),
             os.path.join(os.getcwd(), parent_dir, f"{cas_number_ion_str}_gnps.mgf"),
-            os.path.join(os.getcwd(), parent_dir, f"{cas_number_ion_str}.csv"),
         )
     else:
         raise ValueError("Ionisation must be 'pos' or 'neg'.")
