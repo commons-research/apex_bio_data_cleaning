@@ -39,7 +39,7 @@ def run(df: pd.DataFrame, output_dir: str = "data", ionisation: str = "both"):
                 pubchem_id,
                 path,
             )
-            mzml_file_name = copy_mzml_into_dir(file_name, path)
+            mzml_file_name = copy_mzml_into_dir(pubchem_id, ion, path)
             write_mzbatch_file(
                 path,
                 mzml_file_name,
@@ -78,18 +78,14 @@ def create_feature_list(df: pd.DataFrame, pubchem_id: str, path: str) -> None:
     df_csv.to_csv(os.path.join(path, csv_name), index=False)
 
 
-def main():
-    df = pd.read_csv("apex_bio_cleaned.tsv", sep="\t")
-    df_plate_3 = df[df.rack_number == 3]
-    run(df_plate_3, output_dir="10_ppm_ms2_or_ion", ionisation="both")
-
-
-def copy_mzml_into_dir(apex_number_and_ion: str, output_dir: str) -> str:
+def copy_mzml_into_dir(pubchem_id: str, ionisation_mode: str, output_dir: str) -> str:
     path_to_copy = os.getenv("MZML_DATA_DIR")
     files_in_dir = os.listdir(path_to_copy)
-    matching_files = [file for file in files_in_dir if apex_number_and_ion in file]
+    matching_files = [
+        file for file in files_in_dir if pubchem_id in file and ionisation_mode in file
+    ]
     if len(matching_files) == 0:
-        raise ValueError(f"No file found for {apex_number_and_ion}")
+        raise ValueError(f"No file found for {pubchem_id} and {ionisation_mode}")
     elif len(matching_files) > 1:
         # if we have multiple files, we take the one with the
         # biggest file size using the os.path.getsize function
@@ -103,6 +99,12 @@ def copy_mzml_into_dir(apex_number_and_ion: str, output_dir: str) -> str:
     output_path = os.path.join(os.getcwd(), output_dir, matching_files[0])
     shutil.copy(file_to_copy, output_path)
     return output_path
+
+
+def main():
+    df = pd.read_csv("apex_bio_cleaned.tsv", sep="\t")
+    df_plate_3 = df[df.rack_number == 3]
+    run(df_plate_3, output_dir="10_ppm_ms2_or_ion", ionisation="both")
 
 
 if __name__ == "__main__":
