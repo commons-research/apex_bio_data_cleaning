@@ -142,7 +142,7 @@ def generate_positive_batch_mode(
         </parameter>
         <parameter name="Scan types (IMS)">All scan types</parameter>
         <parameter name="Denormalize fragment scans (traps)">true</parameter>
-        <parameter name="Mass detector" selected_item="Centroid">
+        <parameter name="Mass detector" selected_item="Factor of lowest signal">
             <module name="Factor of lowest signal">
                 <parameter name="Noise factor">2.5</parameter>
             </module>

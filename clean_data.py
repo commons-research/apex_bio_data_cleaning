@@ -4,7 +4,7 @@ import pandas as pd
 from cache_decorator import Cache
 from tqdm import tqdm
 
-from molecules import Molecule
+from src.molecules import Molecule
 
 DOUBLE_MOLECULES: List[str] = ["B1358", "B5054"]
 

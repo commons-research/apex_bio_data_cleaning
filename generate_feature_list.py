@@ -1,3 +1,4 @@
+import argparse
 import os
 import shutil
 
@@ -6,7 +7,6 @@ from dotenv import load_dotenv
 from tqdm import tqdm
 
 from src.mzmine_utils import run_mzmine, write_mzbatch_file
-from src.summary import process_subdirs, write_summary
 
 load_dotenv()
 if not load_dotenv():
@@ -15,7 +15,7 @@ if not load_dotenv():
     )
 
 
-def run(df: pd.DataFrame, output_dir: str = "data", ionisation: str = "both"):
+def run(df: pd.DataFrame, output_dir: str = "data", ionisation: str = "both") -> None:
 
     if ionisation == "both":
         ionisations = ["pos", "neg"]
@@ -29,6 +29,7 @@ def run(df: pd.DataFrame, output_dir: str = "data", ionisation: str = "both"):
     unique_pubchem_cid = df["pubchem_cid"].unique()
 
     for pubchem_id in tqdm(unique_pubchem_cid, desc="Analyzing data", unit="molecule"):
+        pubchem_id = str(pubchem_id)
 
         for ion in ionisations:
             file_name = pubchem_id + "_" + ion
@@ -49,17 +50,13 @@ def run(df: pd.DataFrame, output_dir: str = "data", ionisation: str = "both"):
             )
             run_mzmine(path, file_name + ".mzbatch")
 
-    pos_summary, neg_summary = process_subdirs(output_dir)
-    write_summary(pos_summary, os.path.join(output_dir, "summary_pos.csv"))
-    write_summary(neg_summary, os.path.join(output_dir, "summary_neg.csv"))
-
 
 def create_feature_list(df: pd.DataFrame, pubchem_id: str, path: str) -> None:
     """Takes as input the dataframe of all compounds in the ApexBio library
     and filters the rows where the pubchem_id is the one given in input (should be mostly one single row).
     Then it saves a csv that will be used by MZmine as the target feature list.
     """
-    row = df[df["pubchem_cid"] == pubchem_id]
+    row = df[df["pubchem_cid"] == int(pubchem_id)]
 
     # Créer le DataFrame CSV
     df_csv = {}
@@ -102,9 +99,39 @@ def copy_mzml_into_dir(pubchem_id: str, ionisation_mode: str, output_dir: str) -
 
 
 def main():
+    arg_parser = argparse.ArgumentParser(
+        description="Generate feature list and run mzmine for each molecule in the ApexBio library."
+    )
+    arg_parser.add_argument(
+        "--output_dir",
+        type=str,
+        default="data",
+        help="Directory to save the output files.",
+    )
+    arg_parser.add_argument(
+        "--ionisation",
+        type=str,
+        default="both",
+        choices=["pos", "neg", "both"],
+        help="Ionisation mode to process: 'pos', 'neg' or 'both'. Default is 'both'.",
+    )
+    arg_parser.add_argument(
+        "--plate_number",
+        type=int,
+        choices=[-1, 1, 2, 3, 4, 5, 6, 7],
+        default=-1,
+        help="Plate number to process (1-7). Default is -1, which processes all plates.",
+    )
     df = pd.read_csv("apex_bio_cleaned.tsv", sep="\t")
-    df_plate_3 = df[df.rack_number == 3]
-    run(df_plate_3, output_dir="10_ppm_ms2_or_ion", ionisation="both")
+    args = arg_parser.parse_args()
+    if args.plate_number == -1:
+        run(df, output_dir=args.output_dir, ionisation=args.ionisation)
+        return
+    if args.plate_number not in [1, 2, 3, 4, 5, 6, 7]:
+        raise ValueError("Plate number must be between 1 and 7.")
+
+    df_plate = df[df.rack_number == args.plate_number]
+    run(df_plate, output_dir=args.output_dir, ionisation=args.ionisation)
 
 
 if __name__ == "__main__":
